@@ -1,10 +1,17 @@
 function App() {
 
+  const inputMudou = (event) => {
+    console.log(event.target.value)
+  }
+
+  const clickButton = () => {
+    console.log("Botão clicado")
+  }
 
   return (
     <div>
-      <input placeholder="O que tenha para fazer..." />
-      <button>Adicionar</button>
+      <input onChange={inputMudou} placeholder="O que tenha para fazer..." />
+      <button onClick={clickButton} >Adicionar</button>
 
       <ul>
         <li>Levar o Nico para passear</li>
