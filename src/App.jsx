@@ -1,7 +1,10 @@
 function App() {
 
-  const list = ['Levar o Nico para passear', 'Terminar as aulas de React no DevClube']
+  const list = [{ id: 22, task: 'Levar o Nico para passear' },
+  { id: 35, task: 'Terminar as aulas de React no DevClube' }
+  ]
 
+  //'Levar o Nico para passear', 'Terminar as aulas de React no DevClube'
   const inputMudou = (event) => {
     console.log(event.target.value)
   }
@@ -17,7 +20,7 @@ function App() {
 
       <ul>
         {list.map(item => (
-          <li>{item}</li>
+          <li key={item.id}>{item.task}</li>
         ))}
       </ul>
 
