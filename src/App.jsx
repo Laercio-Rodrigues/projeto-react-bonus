@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
-import  {  v4  as  uuid  }  from  'uuid' ;
+import { v4 as uuid } from 'uuid';
+
+import {
+  Button,
+  Container,
+  Input,
+  ListItem,
+  ToDoList,
+  Trash,
+  Check
+} from './styles';
 
 
 function App() {
 
-  const [list, setList] = useState([{ id: uuid(), task: 'Nada'}])
+  const [list, setList] = useState([])
 
   const [inputTask, setImputTask] = useState('')
 
@@ -14,22 +24,49 @@ function App() {
   }
 
   const clickButton = () => {
-    setList([ ...list, { id: uuid(), task: inputTask}])
+    if (inputTask) {
+      setList([...list, { id: uuid(), task: inputTask, finished: false }])
+    }
+  }
+
+  const finalizarTarefa = (id) => {
+
+    const newList = list.map(item => (
+      item.id === id ? { ...item, finished: !item.finished } : item
+    ))
+
+    setList(newList)
+  }
+
+  const deletarItem = (id) => {
+    const neuList = list.filter(item => item.id !== id)
+
+    setList(neuList)
   }
 
   return (
-    <div>
-      <input onChange={inputMudou} placeholder="O que tenha para fazer..." />
-      <button onClick={clickButton} >Adicionar</button>
+    <Container>
+      <ToDoList>
+        <Input onChange={inputMudou} placeholder="O que tenha para fazer..." />
+        <Button onClick={clickButton} >Adicionar</Button>
 
-      <ul>
-       { list.map(item => (
-        <li key={item.id}>{item.task}</li>
-    
-       ))}
-      </ul>
+        <ul>
+          {list.length > 0 ? (
+            list.map(item => (
+              <ListItem $isFinished={item.finished} key={item.id}>
+                <Check onClick={() => finalizarTarefa(item.id)} />
+                <li>{item.task}</li>
+                <Trash onClick={() => deletarItem(item.id)} />
+              </ListItem>
+            ))
+          ) : (
+            <h3>Não há itens na lista</h3>
+          )}
+        </ul>
+      </ToDoList>
 
-    </div>
+
+    </Container>
   )
 }
 
